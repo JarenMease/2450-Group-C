@@ -1,4 +1,4 @@
-#import argparse
+import argparse
 
 
 def multiply(accumulator, operand, memory):
@@ -12,6 +12,17 @@ def test_multiply():
     result = multiply(accumulator, operand, memory)
     print(result)
 
+def divide(accumulator, operand, memory):
+    return accumulator // memory[operand]
+
+def test_divide():
+    memory = [0] * 100
+    memory[0] = 4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+    
 
 # def read_program(file_path):
 #     program = []
