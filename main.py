@@ -1,5 +1,24 @@
 import argparse
 
+def load(operand, memory):
+    return memory[operand]
+
+def test_load():
+    memory = [0] * 100
+    memory[0] = 30
+    operand = 0
+    accumulator = load(operand, memory)
+    print(accumulator) 
+
+def store(accumulator, operand, memory):
+    memory[operand] = accumulator
+
+def test_store():
+    memory = [0] * 100
+    accumulator = 50
+    operand = 0
+    store(accumulator, operand, memory)
+    print(memory[0]) 
 
 def multiply(accumulator, operand, memory):
     return accumulator * memory[operand]
@@ -65,16 +84,16 @@ def main():
             print(memory[operand])
 
         elif op == 20:  # LOAD
-            accumulator = memory[operand]
+            accumulator = load(operand, memory)
         elif op == 21:  # STORE
-            memory[operand] = accumulator
+            store(accumulator, operand, memory)
 
         elif op == 30:  # ADD
             accumulator += memory[operand]
         elif op == 31:  # SUBTRACT
             accumulator -= memory[operand]
         elif op == 32:  # DIVIDE
-            accumulator /= memory[operand]
+            accumulator = divide(accumulator, operand, memory)
         elif op == 33:  # MULTIPLY
             accumulator = multiply(accumulator, operand, memory)
 
@@ -97,3 +116,6 @@ def main():
 if __name__ == "__main__":
     # main()
     test_multiply()
+    test_divide()
+    test_load()
+    test_store()
