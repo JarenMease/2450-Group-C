@@ -1,5 +1,24 @@
 import argparse
 
+def load(operand, memory):
+    return memory[operand]
+
+def test_load():
+    memory = [0] * 100
+    memory[0] = 30
+    operand = 0
+    accumulator = load(operand, memory)
+    print(accumulator) 
+
+def store(accumulator, operand, memory):
+    memory[operand] = accumulator
+
+def test_store():
+    memory = [0] * 100
+    accumulator = 50
+    operand = 0
+    store(accumulator, operand, memory)
+    print(memory[0]) 
 
 def multiply(accumulator, operand, memory):
     return accumulator * memory[operand]
@@ -12,15 +31,40 @@ def test_multiply():
     result = multiply(accumulator, operand, memory)
     print(result)
 
+def divide(accumulator, operand, memory):
+    return accumulator // memory[operand]
 
-# def read_program(file_path):
-#     program = []
-#     with open(file_path, 'r') as file:
-#         for line in file:
-#             op, operand = map(int, line.split())
-#             program.append((op, operand))
-#     return program
+def test_divide():
+    memory = [0] * 100
+    memory[0] = 4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+    
 
+def read_program(file_path):
+    program = []
+    with open(file_path, 'r') as file:
+        for line in file:
+            op, operand = map(int, line.split())
+            program.append((op, operand))
+    return program
+
+def branch(operand):
+    return operand
+
+def branchNeg(operand, pc):
+    if operand < 0:
+        return operand
+    else:
+        return pc
+
+def branchZero(operand, pc):
+    if operand == 0:
+        return operand
+    else:
+        return pc
 
 def main():
     # parser = argparse.ArgumentParser(description='Process a BasicML program.')
@@ -33,14 +77,14 @@ def main():
     accumulator = 0
 
     # Define BasicML program
-    program = [
-        (10, 0),  # READ into memory[0]
-        (20, 0),  # LOAD memory[0] into accumulator
-        (30, 0),  # ADD memory[0] to accumulator
-        (21, 1),  # STORE accumulator into memory[1]
-        (11, 1),  # WRITE memory[1] to screen
-        (43, 0)   # HALT
-    ]
+    # program = [
+    #     (10, 0),  # READ into memory[0]
+    #     (20, 0),  # LOAD memory[0] into accumulator
+    #     (30, 0),  # ADD memory[0] to accumulator
+    #     (21, 1),  # STORE accumulator into memory[1]
+    #     (11, 1),  # WRITE memory[1] to screen
+    #     (43, 0)   # HALT
+    # ]
 
     # Execute program
     pc = 0  # Program counter
@@ -54,28 +98,26 @@ def main():
             print(memory[operand])
 
         elif op == 20:  # LOAD
-            accumulator = memory[operand]
+            accumulator = load(operand, memory)
         elif op == 21:  # STORE
-            memory[operand] = accumulator
+            store(accumulator, operand, memory)
 
         elif op == 30:  # ADD
             accumulator += memory[operand]
         elif op == 31:  # SUBTRACT
             accumulator -= memory[operand]
         elif op == 32:  # DIVIDE
-            accumulator /= memory[operand]
+            accumulator = divide(accumulator, operand, memory)
         elif op == 33:  # MULTIPLY
             accumulator = multiply(accumulator, operand, memory)
 
             
         elif op == 40:  #Branch
-            pc == operand
+            pc == branch(operand)
         elif op == 41:  #BranchNeg
-            if accumulator < 0:
-                pc == operand
+            pc == branchNeg(operand, pc)
         elif op == 42:  #BranchZero
-            if accumulator == 0:
-                pc == operand
+            pc == branchZero(operand, pc)
 
         elif op == 43:  # HALT
             break
@@ -86,3 +128,6 @@ def main():
 if __name__ == "__main__":
     # main()
     test_multiply()
+    test_divide()
+    test_load()
+    test_store()
