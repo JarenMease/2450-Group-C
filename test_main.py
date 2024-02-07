@@ -39,6 +39,30 @@ def test_divide():
     operand = 0
     result = divide(accumulator, operand, memory)
     assert result == 2
+
+def test_zero_divide():
+    memory = [0] * 100
+    memory[0] = 0
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    assert result == 10 
+
+def test_neg_divide():
+    memory = [0] * 100
+    memory[0] = -4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    assert result == -3
+
+def test_divide_less_one():
+    memory = [0] * 100
+    memory[0] = 10
+    accumulator = 4
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    assert result == 0
     
 def test_branch():
     operand = 5
