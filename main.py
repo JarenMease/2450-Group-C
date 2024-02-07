@@ -32,11 +32,22 @@ def test_multiply():
     print(result)
 
 def divide(accumulator, operand, memory):
+    if memory[operand] == 0:
+        print("Did not divide. Zero division error.")
+        return accumulator
     return accumulator // memory[operand]
 
 def test_divide():
     memory = [0] * 100
     memory[0] = 4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+
+def test_zero_divide():
+    memory = [0] * 100
+    memory[0] = 0
     accumulator = 10
     operand = 0
     result = divide(accumulator, operand, memory)
@@ -117,5 +128,6 @@ if __name__ == "__main__":
     # main()
     test_multiply()
     test_divide()
+    test_zero_divide()
     test_load()
     test_store()
