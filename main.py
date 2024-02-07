@@ -52,6 +52,22 @@ def test_zero_divide():
     operand = 0
     result = divide(accumulator, operand, memory)
     print(result) 
+
+def test_neg_divide():
+    memory = [0] * 100
+    memory[0] = -4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+
+def test_divide_less_one():
+    memory = [0] * 100
+    memory[0] = 10
+    accumulator = 4
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
     
 
 # def read_program(file_path):
@@ -131,3 +147,5 @@ if __name__ == "__main__":
     test_zero_divide()
     test_load()
     test_store()
+    test_neg_divide()
+    test_divide_less_one()
