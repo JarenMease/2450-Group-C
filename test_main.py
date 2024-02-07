@@ -15,7 +15,13 @@ def test_load():
     operand = 0
     accumulator = load(operand, memory)
     assert accumulator == 5
-    
+
+test_neg_load():
+    memory = [0] * 100
+    memory[0] = -5
+    operand = 0
+    accumulator = load(operand, memory)
+    assert accumulator == -5
     
 def test_store():
     memory = [0] * 100
@@ -23,6 +29,13 @@ def test_store():
     operand = 0
     store(accumulator, operand, memory)
     assert memory[0] == 50
+
+def test_neg_store():
+    memory = [0] * 100
+    accumulator = -50
+    operand = 0
+    store(accumulator, operand, memory)
+    assert memory[0] == -50
 
 def test_multiply():
     memory = [0] * 100
