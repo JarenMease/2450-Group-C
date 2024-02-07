@@ -16,7 +16,7 @@ def test_load():
     accumulator = load(operand, memory)
     assert accumulator == 5
 
-test_neg_load():
+def test_neg_load():
     memory = [0] * 100
     memory[0] = -5
     operand = 0
