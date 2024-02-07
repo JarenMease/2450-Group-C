@@ -3,53 +3,14 @@ import argparse
 def load(operand, memory):
     return memory[operand]
 
-def test_load():
-    memory = [0] * 100
-    memory[0] = 30
-    operand = 0
-    accumulator = load(operand, memory)
-    print(accumulator) 
-
 def store(accumulator, operand, memory):
     memory[operand] = accumulator
-
-def test_store():
-    memory = [0] * 100
-    accumulator = 50
-    operand = 0
-    store(accumulator, operand, memory)
-    print(memory[0]) 
 
 def multiply(accumulator, operand, memory):
     return accumulator * memory[operand]
 
-def test_multiply():
-    memory = [0] * 100
-    memory[0] = 4
-    accumulator = 10
-    operand = 0
-    result = multiply(accumulator, operand, memory)
-    print(result)
-
 def divide(accumulator, operand, memory):
     return accumulator // memory[operand]
-
-def test_divide():
-    memory = [0] * 100
-    memory[0] = 4
-    accumulator = 10
-    operand = 0
-    result = divide(accumulator, operand, memory)
-    print(result) 
-    
-
-def read_program(file_path):
-    program = []
-    with open(file_path, 'r') as file:
-        for line in file:
-            op, operand = map(int, line.split())
-            program.append((op, operand))
-    return program
 
 def branch(operand):
     return operand
@@ -59,41 +20,41 @@ def branchNeg(operand, pc):
         return operand
     else:
         return pc
-
+    
 def branchZero(operand, pc):
     if operand == 0:
         return operand
     else:
         return pc
+    
 
-def main():
-    # parser = argparse.ArgumentParser(description='Process a BasicML program.')
-    # parser.add_argument('file', help='The input file containing the BasicML program')
-    # args = parser.parse_args()
+def read_ml_program(file_path):
+    program = []
+    with open(file_path , 'r') as file:
+        for line in file:
+            line = line.strip()
+            if line.startswith('+'):
+                op = int(line[1:3]) 
+                operand = int(line[3:])
+                operand = f"{operand:02}"
+                program.append((op, int(operand)))
+            else:
+                op = int(line[:2])
+                operand = int(line[2:]) 
+                operand = int(f"{operand:02}") 
+                program.append((op, operand))
+    # print(program)  
+    return program
 
 
-    # Initialize memory and accumulator
-    memory = [0] * 100
-    accumulator = 0
-
-    # Define BasicML program
-    # program = [
-    #     (10, 0),  # READ into memory[0]
-    #     (20, 0),  # LOAD memory[0] into accumulator
-    #     (30, 0),  # ADD memory[0] to accumulator
-    #     (21, 1),  # STORE accumulator into memory[1]
-    #     (11, 1),  # WRITE memory[1] to screen
-    #     (43, 0)   # HALT
-    # ]
-
-    # Execute program
+def execute_program(program, memory, accumulator):
     pc = 0  # Program counter
     while True:
         op, operand = program[pc]
         pc += 1
 
         if op == 10:  # READ
-            memory[operand] = int(input("Enter a number: "))
+            memory[operand]
         elif op == 11:  # WRITE
             print(memory[operand])
 
@@ -111,13 +72,12 @@ def main():
         elif op == 33:  # MULTIPLY
             accumulator = multiply(accumulator, operand, memory)
 
-            
-        elif op == 40:  #Branch
-            pc == branch(operand)
-        elif op == 41:  #BranchNeg
-            pc == branchNeg(operand, pc)
-        elif op == 42:  #BranchZero
-            pc == branchZero(operand, pc)
+        elif op == 40:  # Branch
+            pc = branch(operand)
+        elif op == 41:  # BranchNeg
+            pc = branchNeg(operand, pc)
+        elif op == 42:  # BranchZero
+            pc = branchZero(operand, pc)
 
         elif op == 43:  # HALT
             break
@@ -125,9 +85,40 @@ def main():
             print(f"Unknown operation: {op}")
             break
 
+    return memory, accumulator
+
+def main():
+    # Initialize memory and accumulator
+    memory = [0] * 100
+    accumulator = 0
+
+    # Ask for input file
+    filename = input("Enter the name of the input file: ")
+
+    # Define BasicML program
+    program = []
+
+    # Read program from file
+    with open(filename, 'r') as file:
+        for line in file:
+            instruction = int(line)
+            op = instruction // 100  # First two digits
+            operand = instruction % 100  # Last two digits
+
+            if op == 10:  # READ
+                value = int(input(f"What number would you like read into location {operand}? "))
+                memory[operand] = value
+                continue
+
+            program.append((op, operand))
+
+    # Execute program
+    memory, accumulator = execute_program(program, memory, accumulator)
+
+    # Print the result
+    print("Result:", accumulator)
+
 if __name__ == "__main__":
-    # main()
-    test_multiply()
-    test_divide()
-    test_load()
-    test_store()
+    # read_ml_program("programtest.txt")
+    main()
+    
