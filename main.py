@@ -1,5 +1,24 @@
 import argparse
 
+def load(operand, memory):
+    return memory[operand]
+
+def test_load():
+    memory = [0] * 100
+    memory[0] = 30
+    operand = 0
+    accumulator = load(operand, memory)
+    print(accumulator) 
+
+def store(accumulator, operand, memory):
+    memory[operand] = accumulator
+
+def test_store():
+    memory = [0] * 100
+    accumulator = 50
+    operand = 0
+    store(accumulator, operand, memory)
+    print(memory[0]) 
 
 def multiply(accumulator, operand, memory):
     return accumulator * memory[operand]
@@ -12,6 +31,44 @@ def test_multiply():
     result = multiply(accumulator, operand, memory)
     print(result)
 
+def divide(accumulator, operand, memory):
+    if memory[operand] == 0:
+        print("Did not divide. Zero division error.")
+        return accumulator
+    return accumulator // memory[operand]
+
+def test_divide():
+    memory = [0] * 100
+    memory[0] = 4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+
+def test_zero_divide():
+    memory = [0] * 100
+    memory[0] = 0
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+
+def test_neg_divide():
+    memory = [0] * 100
+    memory[0] = -4
+    accumulator = 10
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+
+def test_divide_less_one():
+    memory = [0] * 100
+    memory[0] = 10
+    accumulator = 4
+    operand = 0
+    result = divide(accumulator, operand, memory)
+    print(result) 
+    
 
 # def read_program(file_path):
 #     program = []
@@ -54,16 +111,16 @@ def main():
             print(memory[operand])
 
         elif op == 20:  # LOAD
-            accumulator = memory[operand]
+            accumulator = load(operand, memory)
         elif op == 21:  # STORE
-            memory[operand] = accumulator
+            store(accumulator, operand, memory)
 
         elif op == 30:  # ADD
             accumulator += memory[operand]
         elif op == 31:  # SUBTRACT
             accumulator -= memory[operand]
         elif op == 32:  # DIVIDE
-            accumulator /= memory[operand]
+            accumulator = divide(accumulator, operand, memory)
         elif op == 33:  # MULTIPLY
             accumulator = multiply(accumulator, operand, memory)
 
@@ -86,3 +143,9 @@ def main():
 if __name__ == "__main__":
     # main()
     test_multiply()
+    test_divide()
+    test_zero_divide()
+    test_load()
+    test_store()
+    test_neg_divide()
+    test_divide_less_one()
