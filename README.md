@@ -1,5 +1,6 @@
 UVSIM 
-This program is a simple interpreter for a language called BasicML. BasicML is a simple language that includes operations like read, write, load, store, add, subtract, multiply, divide, branch, branchNeg, and branchZero.
+
+- This program is a simple interpreter for a language called BasicML. BasicML is a simple language that includes operations like read, write, load, store, add, subtract, multiply, divide, branch, branchNeg, and branchZero.
 
 How to Open
 
