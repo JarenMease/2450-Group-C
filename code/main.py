@@ -6,6 +6,12 @@ def load(operand, memory):
 def store(accumulator, operand, memory):
     memory[operand] = accumulator
 
+def add(accumulator, operand, memory):
+    return accumulator + memory[operand]
+
+def subtract(accumulator, operand, memory):
+    return accumulator - memory[operand]
+
 def multiply(accumulator, operand, memory):
     return accumulator * memory[operand]
 
