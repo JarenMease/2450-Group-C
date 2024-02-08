@@ -35,13 +35,13 @@ Input File Format
 - The input file should contain one command per line. Each command should be a 4-digit number. The first two digits are the operation code, and the last two digits are the operand. The file must end with the 4300 Halt Command.
 
 Here's an example of what an input file might look like:
-1007
-2007
-3008
-2109
-1010
-1110
-4300
+- 1007
+- 2007
+- 3008
+- 2109
+- 1010
+- 1110
+- 4300
 
 Here's what that above file does:
 - 1007: This is a READ operation. The program will prompt the user to enter a number, which will be stored in memory location 07.
