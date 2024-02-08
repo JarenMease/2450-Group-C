@@ -1,6 +1,22 @@
 UVSIM 
 This program is a simple interpreter for a language called BasicML. BasicML is a simple language that includes operations like read, write, load, store, add, subtract, multiply, divide, branch, branchNeg, and branchZero.
 
+How to Open
+
+Running Python Program in VS Code
+
+Open VS Code
+- Press the Windows key, type "Visual Studio Code", and press Enter.
+
+Change Directory in Terminal
+- Open a new terminal in VS Code (`Terminal > New Terminal`).
+- Type `cd 'your_directory_path'` to change the directory.
+
+Run Python Program
+- In the terminal, type `python your_file.py` to run your program.
+
+Replace `'your_directory_path'` and `'your_file.py'` with your actual directory path and Python file name.
+
 How to Use
 Run the program. You will be prompted to enter the name of the input file. This file should contain your BasicML program. Each line of the file should contain a single command.
 
