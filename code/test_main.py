@@ -1,4 +1,3 @@
-
 from main import *
 
 def test_always_passes():
