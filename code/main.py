@@ -1,5 +1,19 @@
 import argparse
 
+def read(operand, memory):
+    while True:
+        try:
+            value = int(input(f"What number would you like read into location {operand}? "))
+            memory[operand] = value
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+    return value
+
+def write(operand, memory):
+    print(memory[operand])
+
 def load(operand, memory):
     return memory[operand]
 
@@ -36,28 +50,28 @@ def branchZero(operand, pc):
     else:
         return pc
     
-
 def read_ml_program(file_path):
+    # Define BasicML program
     program = []
-    with open(file_path , 'r') as file:
+
+    valid_operands = [00, 10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 42, 43]
+    
+    # Read program from file
+    with open(file_path, 'r') as file:
         for line in file:
             line = line.strip()
-            # if len(line) > 5:
-                # print(line)
-                # raise ValueError(f"Command {line} is more than 4 digits. Please correct the file.")
-            if line.startswith('+'):
-                op = int(line[1:3]) 
-                operand = int(line[3:])
-                operand = f"{operand:02}"
-                program.append((op, int(operand)))
-            else:
-                op = int(line[:2])
-                operand = int(line[2:]) 
-                operand = int(f"{operand:02}") 
-                program.append((op, operand))
-    # print(program)  
-    return program
+            if len(line) > 5 or len(line) < 4:
+                raise ValueError(f"Command {line} is more or less than 4 digits. Please correct the program txt file.")
+            instruction = int(line)
+            op = instruction // 100  # First two digits
+            operand = instruction % 100  # Last two digits5
 
+            if op not in valid_operands:
+                raise ValueError(f"Invalid operand {op}. Please correct the file.")
+
+            program.append((op, operand))
+        
+        return program
 
 def execute_program(program, memory, accumulator):
     pc = 0  # Program counter
@@ -66,9 +80,9 @@ def execute_program(program, memory, accumulator):
         pc += 1
 
         if op == 10:  # READ
-            memory[operand]
+            read(operand, memory)
         elif op == 11:  # WRITE
-            print(memory[operand])
+            write(operand, memory)
 
         elif op == 20:  # LOAD
             accumulator = load(operand, memory)
@@ -113,36 +127,8 @@ def main():
         except FileNotFoundError:
             print("File not found. Please try again.")
 
-
-    # Define BasicML program
-    program = []
-
-    valid_operands = [00, 10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 42, 43]
-
-    # Read program from file
-    with open(filename, 'r') as file:
-        for line in file:
-            line = line.strip()
-            if len(line) > 5 or len(line) <= 4:
-                raise ValueError(f"Command {line} is more or less than 4 digits. Please correct the file.")
-            instruction = int(line)
-            op = instruction // 100  # First two digits
-            operand = instruction % 100  # Last two digits5
-
-            if op not in valid_operands:
-                raise ValueError(f"Invalid operand {op}. Please correct the file.")
-
-            if op == 10:  # READ
-                while True:
-                    try:
-                        value = int(input(f"What number would you like read into location {operand}? "))
-                        memory[operand] = value
-                        break
-                    except ValueError:
-                        print("Invalid input. Please enter a number.")
-                        continue
-
-            program.append((op, operand))
+    # Read BasicML program from file
+    program = read_ml_program(filename)
 
     # Execute program
     memory, accumulator = execute_program(program, memory, accumulator)
@@ -151,6 +137,5 @@ def main():
     print("Result:", accumulator)
 
 if __name__ == "__main__":
-    # read_ml_program("programtest.txt")
     main()
     
