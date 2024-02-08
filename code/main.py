@@ -10,6 +10,9 @@ def multiply(accumulator, operand, memory):
     return accumulator * memory[operand]
 
 def divide(accumulator, operand, memory):
+    if memory[operand] == 0:
+        print("Did not divide. Zero division error.")
+        return accumulator
     return accumulator // memory[operand]
 
 def branch(operand):
