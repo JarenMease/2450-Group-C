@@ -76,9 +76,9 @@ def execute_program(program, memory, accumulator):
             store(accumulator, operand, memory)
 
         elif op == 30:  # ADD
-            accumulator += memory[operand]
+            accumulator = add(accumulator, operand, memory)
         elif op == 31:  # SUBTRACT
-            accumulator -= memory[operand]
+            accumulator = subtract(accumulator, operand, memory)
         elif op == 32:  # DIVIDE
             accumulator = divide(accumulator, operand, memory)
         elif op == 33:  # MULTIPLY
