@@ -1,0 +1,122 @@
+
+
+Milestone 2 Design Document
+02/09/2024
+Jaren Mease, Jared Acosta, Brandon Woodruff, Colton Evans 
+
+Overview:
+This milestone will include a simple virtual machine that can interpret machine language called BasicML. The program will handle a 100-word memory and will provide basic machine operations such as Read and Write. It will also handle basic arithmetic as well. 
+
+User Stories:
+As a computer science student, Taylor wants to run BasicML programs with I/O, Load/Store, Arithmetic, and Control instructions on the UVSim simulator so that she can learn more about machine language and computer architecture.
+
+Use Case 1:
+Actor: Computer Science Student
+System: UVSim
+Goal: Learn how to load a word from a specific location in memory into the accumulator.
+Steps:
+The student enters a BasicML program containing a LOAD instruction along with the operand specifying the memory location from which to load the word.
+The UVSim reads the LOAD instruction and the operand from the program.
+UVSim retrieves the word from the specified memory location and loads it into the accumulator.
+
+Use Case 2:
+Actor: Computer Science Student
+System: UVSim
+Goal: Execute a program to perform arithmetic operations.
+Steps:
+The student enters a BasicML program containing arithmetic instructions such as ADD, SUBTRACT, MULTIPLY, and DIVIDE, along with the operands specifying the memory locations involved in the operations.
+The UVSim reads the program and executes each instruction sequentially.
+For each arithmetic operation, UVSim retrieves the necessary words from memory, performs the operation, and updates the accumulator accordingly.
+UVSim continues executing the program until it encounters a HALT instruction or reaches the end of the program.
+Upon completion, UVSim provides the output of the program execution, including any final values stored in memory or displayed on the screen.
+
+Use Case 3:
+Actor: Computer Science Student
+System: UVSim
+Goal: Branch to a specific location in memory based on a condition.
+Steps:
+The student enters a BasicML program containing BRANCH, BRANCHNEG, or BRANCHZERO instructions, along with the operands specifying the memory locations to branch to based on certain conditions.
+The UVSim reads the program and executes each instruction sequentially.
+When encountering a branching instruction, UVSim evaluates the condition specified (e.g., accumulator value being negative or zero).
+If the condition is met, UVSim updates the program counter to the specified memory location, effectively branching the program.
+UVSim continues executing the program from the new memory location.
+This process repeats until the program encounters a HALT instruction.
+
+Use Case 4:
+Actor: Computer Science Student
+System: UVSim
+Goal: Perform input/output operations.
+Steps:
+The student enters a BasicML program containing READ and WRITE instructions, along with the operands specifying the memory locations for input and output.
+When executing the program, UVSim waits for input from the user for READ instructions.
+Once input is provided, UVSim stores the input word into the specified memory location.
+For WRITE instructions, UVSim retrieves the word from the specified memory location and displays it on the screen.
+UVSim continues executing the program, performing input and output operations as instructed, until it encounters a HALT instruction.
+
+Use Case 5:
+Actor: Computer Science Student
+System: UVSim
+Goal: Store a word from the accumulator into a specific location in memory.
+Steps:
+The student enters a BasicML program containing STORE instructions, along with the operands specifying the memory locations for storing.
+UVSim reads the STORE instruction and the operand from the program.
+UVSim retrieves the word from the accumulator.
+UVSim stores the word into the specified memory location.
+
+Use Case 6:
+Actor: Computer Science Student
+System: UVSim
+Goal: Execute a program containing a combination of instructions.
+Steps:
+The student enters a BasicML program containing a combination of I/O, load/store, arithmetic, and control instructions.
+UVSim reads the program and executes each instruction sequentially.
+UVSim performs the specified operations such as input/output, loading/storing data, arithmetic calculations, and control flow based on the instructions provided.
+UVSim continues executing the program until it reaches the end or encounters a HALT instruction.
+UVSim provides feedback to the student, indicating the completion of the program execution and any relevant output generated during the process.
+
+Use Case 7:
+Actor: Computer Science Student
+System: UVSim
+Goal: Implement error handling for invalid instructions or memory access.
+Steps:
+The student enters a BasicML program containing invalid instructions or attempts to access memory locations beyond the defined range.
+UVSim detects the presence of invalid instructions or out-of-bounds memory access during program execution.
+UVSim provides appropriate error messages or warnings to the student, indicating the nature of the error and its location within the program.
+The student can correct the errors in the program and re-run it using UVSim for debugging and validation.
+
+Use Case 8:
+Actor: Computer Science Student
+System: UVSim
+Goal: Implement nested conditional statements using branching instructions.
+Steps:
+The student writes a BasicML program containing nested conditional statements using branching instructions.
+UVSim reads the program and executes each instruction sequentially, evaluating conditions and branching accordingly.
+When encountering nested conditions, UVSim appropriately manages the program flow, ensuring that each condition is evaluated and branches are taken or skipped accordingly.
+UVSim continues executing the program until it reaches the end or encounters a HALT instruction, providing the expected output based on the nested conditions.
+
+Use Case 9:
+Actor: Computer Science Student
+System: UVSim
+Goal: Perform division operation with error handling for division by zero.
+Steps:
+The student creates a BasicML program containing DIVIDE instruction to perform division operation.
+UVSim reads the program and executes the DIVIDE instruction, involving operands stored in memory and accumulator.
+If the divisor is zero, UVSim detects the division by zero error.
+UVSim provides an appropriate error message to the student, indicating the division by zero error.
+The student can modify the program to handle division by zero error gracefully or correct the divisor value to prevent the error from occurring.
+
+Use Case 10:
+Actor: Computer Science Student
+System: UVSim
+Goal: Implement conditional jumps to create decision-making structures.
+Steps:
+The student writes a BasicML program containing conditional jump instructions (BRANCHNEG, BRANCHZERO) to create decision-making structures.
+UVSim reads the program and executes each instruction sequentially, evaluating conditions and jumping to specific memory locations based on the accumulator's value.
+UVSim manages the program flow according to the conditions specified in the program, taking appropriate branches or continuing execution based on the accumulator's state.
+UVSim provides feedback to the student, indicating the outcome of each condition evaluation and the corresponding program flow.
+
+
+
+
+
+
