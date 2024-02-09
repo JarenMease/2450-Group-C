@@ -38,14 +38,14 @@ def divide(accumulator, operand, memory):
 def branch(operand):
     return operand
 
-def branchNeg(operand, pc):
-    if operand < 0:
+def branchNeg(accumulator, operand, pc):
+    if accumulator < 0:
         return operand
     else:
         return pc
     
-def branchZero(operand, pc):
-    if operand == 0:
+def branchZero(accumulator, operand, pc):
+    if accumulator == 0:
         return operand
     else:
         return pc
@@ -101,9 +101,9 @@ def execute_program(program, memory, accumulator):
         elif op == 40:  # Branch
             pc = branch(operand)
         elif op == 41:  # BranchNeg
-            pc = branchNeg(operand, pc)
+            pc = branchNeg(accumulator, operand, pc)
         elif op == 42:  # BranchZero
-            pc = branchZero(operand, pc)
+            pc = branchZero(accumulator, operand, pc)
 
         elif op == 43:  # HALT
             break
