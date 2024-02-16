@@ -1,5 +1,6 @@
 import argparse
 
+
 def read(operand, memory):
     while True:
         try:
@@ -53,32 +54,46 @@ def branchZero(accumulator, operand, pc):
 def read_ml_program(file_path):
     # Define BasicML program
     program = []
-
-    valid_operands = [00, 10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 42, 43]
     
     # Read program from file
     with open(file_path, 'r') as file:
         for line in file:
             line = line.strip()
-            if len(line) > 5 or len(line) < 4:
-                raise ValueError(f"Command {line} is more or less than 4 digits. Please correct the program txt file.")
-            instruction = int(line)
-            op = instruction // 100  # First two digits
-            operand = instruction % 100  # Last two digits5
 
-            if op not in valid_operands:
-                raise ValueError(f"Invalid operand {op}. Please correct the file.")
+             # Check that line in file is a word
+            try: 
+                instruction = int(line)
+            except:
+                raise TypeError(f"Line {line} contains a non-integer character. All words must be integers. Please correct the program txt file.")
 
-            program.append((op, operand))
+            # Check word size
+            if len(line) == 5 and line[0] not in ('+', '-'):
+                raise ValueError(f"Line {line[0]} == 5 but first character is not + or -. Please correct the program txt file.")            
+            elif len(line) not in (4, 5):                   
+                raise ValueError(f"Line {line} is more or less than 4 digits. Please correct the program txt file.")
+
+            program.append(instruction)
         
         return program
 
-def execute_program(program, memory, accumulator):
+def load_ml_program(program, memory):
+    # Load program into main memory starting at location 00
+    for i, instruction in enumerate(program):
+        memory[i] = instruction
+
+    return memory
+
+def execute_program(memory, accumulator):
+    
     pc = 0  # Program counter
     while True:
-        op, operand = program[pc]
-        pc += 1
+        # Get op and operand for current pc position
+        op = memory[pc] // 100 # First two digits in memory location
+        operand = memory[pc] % 100 # Last two digits of in memory location
 
+        pc += 1  # If HALT did not occur, increment pc
+
+        # Perform operation only if op code is found
         if op == 10:  # READ
             read(operand, memory)
         elif op == 11:  # WRITE
@@ -98,18 +113,18 @@ def execute_program(program, memory, accumulator):
         elif op == 33:  # MULTIPLY
             accumulator = multiply(accumulator, operand, memory)
 
-        elif op == 40:  # Branch
+        elif op == 40:  # BRANCH
             pc = branch(operand)
-        elif op == 41:  # BranchNeg
+        elif op == 41:  # BRANCHNEG
             pc = branchNeg(accumulator, operand, pc)
-        elif op == 42:  # BranchZero
+        elif op == 42:  # BRANCHZERO
             pc = branchZero(accumulator, operand, pc)
 
         elif op == 43:  # HALT
             break
-        else:
-            print(f"Unknown operation: {op}")
-            break
+
+        if pc > 99:  # If pc > 99, it is outside memory. Memory only goes from 00 to 99. 
+            raise RuntimeError (f"Program exceeds available memory. Program ran without encountering a HALT command. Exiting program.")
 
     return memory, accumulator
 
@@ -130,8 +145,11 @@ def main():
     # Read BasicML program from file
     program = read_ml_program(filename)
 
+    # Load program into memory
+    memory = load_ml_program(program, memory)
+
     # Execute program
-    memory, accumulator = execute_program(program, memory, accumulator)
+    memory, accumulator = execute_program(memory, accumulator)
 
     # Print the result
     print("Result:", accumulator)
