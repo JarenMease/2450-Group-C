@@ -1,5 +1,5 @@
 #import pytest
-from main import *
+from main_oop_JA_edits import *
 from JA_edit import *
 
 def test_always_passes():
