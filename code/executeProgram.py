@@ -52,8 +52,7 @@ class Program():
                   print("Program halted.")
                   break
               case _: 
-                  print(f"Unknown operation: {self._op}")
-                  print("Program halted.")
+                  print(f"Unknown operation: {self._op} \n Program halted.")
                   break
             self._pc += 1
     
