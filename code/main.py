@@ -1,10 +1,10 @@
 from executeProgram import *
 
 def main():
-    program = Program()
-    program.readMlProgram()
-    program.load_ml_program()
-    program.execute_program()
+    my_Sim = UVSim()
+    my_Sim.read_ml_program() #should rename to read_ml_program
+    my_Sim.load_ml_program()
+    my_Sim.execute_program()
 
 if __name__ == "__main__":
     main()

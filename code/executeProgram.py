@@ -1,43 +1,30 @@
-from main import *
-
-
-class Program():
+class UVSim(): #JA Should rename to UVSim or Sim or B
   
     def __init__(self):
         self._memory = [0] * 100
         self._accumulator = 0
         self._pc = 0
         self._operand = 0
+        self._op = 0
         self._program = []
         
     def load_ml_program(self):
         for i, instruction in enumerate(self._program):
             self._memory[i] = instruction
             
-    def readMlProgram(self):
+    def read_ml_program(self): #JA comment should use snake case for Python
         self._file = input("Enter the name of the input file: ")
         try:
-            
-            
-          valid_operands = [00, 10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 42, 43]
-
     # Read program from file
           with open(self._file, 'r') as file:
             for line in file:
                 line = line.strip()
-                if len(line) > 5 or len(line) < 4:
-                    raise ValueError(f"Command {line} is more or less than 4 digits. Please correct the program txt file.")
-                instruction = int(line)
-                op = instruction //100 # First two digits
-                operand = instruction % 100  # Last two digits5
-
-                if op not in valid_operands:
-                    raise ValueError(f"Invalid operand {op}. Please correct the file.")
+                
                 # Check that line in file is a word
                 try: 
                     instruction = int(line)
                 except:
-                    raise TypeError(f"Line {line} contains a non-integer character. All words must be integers. Please correct the program txt file.")
+                    raise ValueError(f"Line {line} contains a non-integer character. All words must be integers. Please correct the program txt file.")
 
                 # Check word size
                 if len(line) == 5 and line[0] not in ('+', '-'):
@@ -49,17 +36,14 @@ class Program():
       
         except FileNotFoundError:
             print(f"File {self._file} not found. Please enter a valid file name.")
-            self.readMlProgram()
+            self.read_ml_program()
             
             
     def execute_program(self):
         self._pc = 0
-        while self._pc < len(self._program):
-            if self._pc > 99:
-                print("Program too long. Program halted.")
-                break
-            self._op = self._memory[self._pc] // 100
-            self._operand = self._memory[self._pc] % 100
+        while self._pc < len(self._memory):
+            self._op = self._memory[self._pc] // 100 # JA comment currently we don't have op as an attr in class #Brandon Comment, Added it haha
+            self._operand = self._memory[self._pc] % 100  
             match self._op:
               case 10: #read
                   self.read()
@@ -87,11 +71,10 @@ class Program():
                   print("Result: ", self._accumulator)
                   print("Program halted.")
                   break
-              case _: 
-                  print(f"Unknown operation: {self._op} \n Program halted.")
-                  break
             if self._op not in (40, 41, 42):
               self._pc += 1
+        if self._pc > 99:
+            print("Program too long. Program halted.")
     
       
     def read(self):
@@ -169,5 +152,4 @@ class Program():
     
     def set_program(self, program):
       self._program = program
-    
     
