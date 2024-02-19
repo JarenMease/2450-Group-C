@@ -1,6 +1,6 @@
 #import pytest
-from main_oop_JA_edits import *
-from JA_edit import *
+from main import *
+from execute_program import *
 
 def test_always_passes():
     assert True
