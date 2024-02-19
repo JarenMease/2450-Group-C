@@ -1,4 +1,4 @@
-from executeProgram import UVSim
+from execute_program import UVSim
 
 def main():
     my_Sim = UVSim()
