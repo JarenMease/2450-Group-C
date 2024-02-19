@@ -1,117 +1,175 @@
-import pytest
-
+#import pytest
 from main import *
+from JA_edit import *
 
 def test_always_passes():
     assert True
 
 # def test_always_fail():
 #     assert False
-
-    
+   
 def test_load():
-    memory = [0] * 100
-    memory[0] = 5
-    operand = 0
-    accumulator = load(operand, memory)
-    assert accumulator == 5
+    my_Sim = UVSim()
+    my_Sim.set_memory(0, 10)
+    accumulator = my_Sim.load()
+    assert accumulator == 10
 
 def test_neg_load():
-    memory = [0] * 100
-    memory[0] = -5
-    operand = 0
-    accumulator = load(operand, memory)
+    my_Sim = UVSim()
+    my_Sim.set_memory(0, -5)
+    accumulator = my_Sim.load()
     assert accumulator == -5
     
 def test_store():
-    memory = [0] * 100
-    accumulator = 50
-    operand = 0
-    store(accumulator, operand, memory)
-    assert memory[0] == 50
+    my_Sim = UVSim()
+    my_Sim.set_memory(0, 10)
+    my_Sim.set_accumulator(50)
+    my_Sim.store()
+    storing = my_Sim.get_memory(0)
+    assert storing == 50
 
 def test_neg_store():
-    memory = [0] * 100
-    accumulator = -50
-    operand = 0
-    store(accumulator, operand, memory)
-    assert memory[0] == -50
+    my_Sim = UVSim()
+    my_Sim.set_memory(0, -10)
+    my_Sim.set_accumulator(-50)
+    my_Sim.store()
+    storing = my_Sim.get_memory(0)
+    assert storing == -50
 
 def test_multiply():
-    memory = [0] * 100
-    memory[0] = 4
-    accumulator = 10
-    operand = 0
-    result = multiply(accumulator, operand, memory)
-    assert result == 40
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(10)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.multiply()
+    assert result == 50
+
+def test_neg_multiply():
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(-10)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.multiply()
+    assert result == -50
     
 def test_divide():
-    memory = [0] * 100
-    memory[0] = 4
-    accumulator = 10
-    operand = 0
-    result = divide(accumulator, operand, memory)
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(10)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.divide()
     assert result == 2
 
 def test_zero_divide():
-    memory = [0] * 100
-    memory[0] = 0
-    accumulator = 10
-    operand = 0
-    result = divide(accumulator, operand, memory)
-    assert result == 10 
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(10)
+    my_Sim.set_memory(0, 0)
+    result = my_Sim.divide()
+    assert result == 10
 
 def test_neg_divide():
-    memory = [0] * 100
-    memory[0] = -4
-    accumulator = 10
-    operand = 0
-    result = divide(accumulator, operand, memory)
-    assert result == -3
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(-10)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.divide()
+    assert result == -2
 
 def test_divide_less_one():
-    memory = [0] * 100
-    memory[0] = 10
-    accumulator = 4
-    operand = 0
-    result = divide(accumulator, operand, memory)
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(1)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.divide()
     assert result == 0
     
 def test_branch():
-    operand = 5
-    result = branch(operand)
+    my_Sim = UVSim()
+    my_Sim.set_operand(5)
+    result = my_Sim.branch()
     assert result == 5
     
+def test_branch2():
+    my_Sim = UVSim()
+    my_Sim.set_pc(10)
+    my_Sim.set_operand(15)
+    result = my_Sim.branch()
+    assert result == 15
+        
 def test_branchNeg():
-    operand = -5
-    pc = 0
-    result = branchNeg(operand, pc)
-    assert result == -5
+    my_Sim = UVSim()
+    my_Sim.set_operand(20)
+    my_Sim.set_accumulator(-5)
+    result = my_Sim.branchNeg()
+    assert result == 20
     
 def test_branchNeg2():
-    operand = 5
-    pc = 0
-    result = branchNeg(operand, pc)
-    assert result == 0
+    my_Sim = UVSim()
+    my_Sim.set_operand(5)
+    my_Sim.set_accumulator(5)
+    result = my_Sim.branchNeg()
+    assert result == 1
 
 def test_branchZero():
-    operand = 0
-    pc = 0
-    result = branchZero(operand, pc)
-    assert result == 0
+    my_Sim = UVSim()
+    my_Sim.set_operand(25)
+    my_Sim.set_pc(5)
+    result = my_Sim.branchZero()
+    assert result == 25
     
 def test_branchZero2():
-    operand = 5
-    pc = 0
-    result = branchZero(operand, pc)
-    assert result == 0
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(5)
+    result = my_Sim.branchZero()
+    assert result == 1
     
-def test_read_program():
-    file_path = 'programtest.txt'
-    program = read_program(file_path)
-    assert program == [(78,00), (79,00), (80,00), (47, 55), (57, 66)]
+def test_add():
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(5)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.add()
+    assert result == 10
+
+def test_add2():
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(5)
+    my_Sim.set_program([3005, 4300, 0000, 0000, 0000, 5])
+    my_Sim.load_ml_program()
+    my_Sim.execute_program()
+    result = my_Sim.get_accumulator()
+    assert result == 10
+    # my_Sim = [(30, 5), (43,00)]
+    # accumulator = 5
+    # memory = [0] * 100
+    # memory[5] = 5
+    # memory, accumulator = execute_my_Sim(my_Sim, memory, accumulator)
+    # assert accumulator == 10
     
-def test_memory():
-    memory = [0] * 100
-    memory[0] = 5
-    assert memory[0] == 5
+def test_subtract():
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(10)
+    my_Sim.set_memory(0, 5)
+    result = my_Sim.subtract()
+    assert result == 5
+    
+def test_subtract2():
+    my_Sim = UVSim()
+    my_Sim.set_accumulator(10)
+    my_Sim.set_program([3105, 4300, 0000, 0000, 0000, 5])
+    my_Sim.load_ml_program()
+    my_Sim.execute_program()
+    result = my_Sim.get_accumulator()
+    assert result == 5
+    
+def test_execute_my_Sim():
+    my_Sim = UVSim()
+    my_Sim.set_program([2005, 3005, 4300, 0000, 0000, 5])
+    my_Sim.load_ml_program()
+    my_Sim.execute_program()
+    result = my_Sim.get_accumulator()
+    assert result == 10
+
+def test_execute_my_Sim2():
+    my_Sim = UVSim()
+    my_Sim.set_memory(5, 10)
+    my_Sim.set_memory(10, 5)
+    my_Sim.set_program([2005, 3110, 4300, 0000, 0000, 10, 0000, 0000, 0000, 0000, 5])
+    my_Sim.load_ml_program()
+    my_Sim.execute_program()
+    result = my_Sim.get_accumulator()
+    assert result == 5
