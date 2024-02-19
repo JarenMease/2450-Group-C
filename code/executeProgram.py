@@ -1,4 +1,4 @@
-class UVSim(): #JA Should rename to UVSim or Sim or B
+class UVSim():
   
     def __init__(self):
         self._memory = [0] * 100
