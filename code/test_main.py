@@ -128,8 +128,8 @@ def test_add():
 def test_add2():
     program = Program()
     program.set_accumulator(5)
-    program.set_memory(5, 5)
-    program.set_program([(30, 5), (43,00)])
+    program.set_program([3005, 4300, 0000, 0000, 0000, 5])
+    program.load_ml_program()
     program.execute_program()
     result = program.get_accumulator()
     assert result == 10
@@ -150,16 +150,16 @@ def test_subtract():
 def test_subtract2():
     program = Program()
     program.set_accumulator(10)
-    program.set_memory(5, 5)
-    program.set_program([(31, 5), (43,00)])
+    program.set_program([3105, 4300, 0000, 0000, 0000, 5])
+    program.load_ml_program()
     program.execute_program()
     result = program.get_accumulator()
     assert result == 5
     
 def test_execute_program():
     program = Program()
-    program.set_memory(5, 5)
-    program.set_program([(20, 5), (30, 5), (43, 00)])
+    program.set_program([2005, 3005, 4300, 0000, 0000, 5])
+    program.load_ml_program()
     program.execute_program()
     result = program.get_accumulator()
     assert result == 10
@@ -168,7 +168,8 @@ def test_execute_program2():
     program = Program()
     program.set_memory(5, 10)
     program.set_memory(10, 5)
-    program.set_program([(20, 5), (31, 10), (43, 00)])
+    program.set_program([2005, 3110, 4300, 0000, 0000, 10, 0000, 0000, 0000, 0000, 5])
+    program.load_ml_program()
     program.execute_program()
     result = program.get_accumulator()
     assert result == 5

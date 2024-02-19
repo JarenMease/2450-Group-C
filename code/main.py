@@ -3,6 +3,7 @@ from executeProgram import *
 def main():
     program = Program()
     program.readMlProgram()
+    program.load_ml_program()
     program.execute_program()
 
 if __name__ == "__main__":
