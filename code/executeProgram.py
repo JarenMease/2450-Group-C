@@ -90,7 +90,8 @@ class Program():
               case _: 
                   print(f"Unknown operation: {self._op} \n Program halted.")
                   break
-            self._pc += 1
+            if self._op not in (40, 41, 42):
+              self._pc += 1
     
       
     def read(self):
