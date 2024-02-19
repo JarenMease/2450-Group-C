@@ -1,6 +1,4 @@
-
-
-class UVSim(): #JA Should rename to UVSim or Sim or B
+class UVSim():
   
     def __init__(self):
         self._memory = [0] * 100
@@ -13,7 +11,7 @@ class UVSim(): #JA Should rename to UVSim or Sim or B
         for i, instruction in enumerate(self._program):
             self._memory[i] = instruction
             
-    def read_ml_program(self): #JA comment should use snake case for Python
+    def read_ml_program(self):
         self._file = input("Enter the name of the input file: ")
         try:
     # Read program from file
@@ -43,7 +41,7 @@ class UVSim(): #JA Should rename to UVSim or Sim or B
     def execute_program(self):
         self._pc = 0
         while self._pc < len(self._memory):
-            self._op = self._memory[self._pc] // 100 # JA comment currently we don't have op as an attr in class
+            self._op = self._memory[self._pc] // 100
             self._operand = self._memory[self._pc] % 100  
             match self._op:
               case 10: #read
