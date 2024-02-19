@@ -103,7 +103,7 @@ def test_branchNeg2():
     program.set_operand(5)
     program.set_accumulator(5)
     result = program.branchNeg()
-    assert result == 0
+    assert result == 1
 
 def test_branchZero():
     program = Program()
@@ -116,7 +116,7 @@ def test_branchZero2():
     program = Program()
     program.set_accumulator(5)
     result = program.branchZero()
-    assert result == 0
+    assert result == 1
     
 def test_add():
     program = Program()

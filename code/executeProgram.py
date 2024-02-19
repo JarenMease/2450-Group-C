@@ -135,13 +135,13 @@ class Program():
       if self._accumulator < 0:
           return self._operand
       else:
-          return self._pc
+          return self._pc + 1
         
     def branchZero(self):
       if self._accumulator == 0:
           return self._operand
       else:
-          return self._pc
+          return self._pc + 1
         
     def set_accumulator(self, value):
       self._accumulator = value
