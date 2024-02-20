@@ -1,12 +1,14 @@
-from uvsim import *
+from uvsim import UVSim, arithmetic, branch
             
             
 class execute_program(UVSim):
       def execute(self):
         self._pc = 0
-        while self._pc < len(self._memory.len()):
-            self._op = self._memory.get[self._pc] // 100 # JA comment currently we don't have op as an attr in class #Brandon Comment, Added it haha
-            self._operand = self._memory.get[self._pc] % 100  
+        while self._pc < self._memory.len():
+
+            self._op = self._memory.load(self._pc) // 100
+            self._operand = self._memory.load(self._pc) % 100  
+
             match self._op:
               case 10: #read
                   self.read() # BW GUI.READ THIS HAS TO BE DONE IN FRONT END
@@ -17,13 +19,13 @@ class execute_program(UVSim):
               case 21: #store
                   self._memory.store(self._operand, self._accumulator)
               case 30: #add
-                  self._accumulator = arithmetic.add(self._accumulator, self._memory.get[self._operand])
+                  self._accumulator = arithmetic.add(self._accumulator, self._memory.load(self._operand))
               case 31: #subtract
-                  self._accumulator = arithmetic.subtract(self._accumulator, self._memory.get[self._operand])
+                  self._accumulator = arithmetic.subtract(self._accumulator, self._memory.load(self._operand))
               case 32: #divide
-                  self._accumulator = arithmetic.divide(self._accumulator, self._memory.get[self._operand])
+                  self._accumulator = arithmetic.divide(self._accumulator, self._memory.load(self._operand))
               case 33: #multiply
-                  self._accumulator = arithmetic.multiply(self._accumulator, self._memory.get[self._operand])
+                  self._accumulator = arithmetic.multiply(self._accumulator, self._memory.load(self._operand))
               case 40: #branch
                   self._pc = branch.branch(self._operand)
               case 41: #branchNeg
@@ -33,7 +35,7 @@ class execute_program(UVSim):
               case 43: #halt
                   my_bool = branch.halt()
                   if my_bool:
-                    break
+                      break
             if self._op not in (40, 41, 42):
               self._pc += 1
         if self._pc > 99:
@@ -43,14 +45,14 @@ class execute_program(UVSim):
         while True:
           try:
             value = int(input(f"What number would you like read into memory location {self._operand}? "))
-            self._memory.store[self._operand] = value
+            self._memory._memory[self._operand] = value
             break
           except ValueError:
             print("Please enter a valid number.")
             continue
     
       def write(self): #BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
-        print(self._memory.get[self._operand])
+        print(self._memory.load(self._operand))
     
 
 
