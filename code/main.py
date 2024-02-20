@@ -1,10 +1,11 @@
 from executeProgram import *
+from uvsim import *
 
 def main():
-    my_Sim = UVSim()
-    my_Sim.read_ml_program() #should rename to read_ml_program
-    my_Sim.load_ml_program()
-    my_Sim.execute_program()
+    my_Sim = execute_program()
+    my_Sim.read_ml_program() #should rename to read_ml_program BW Need to go to the front end
+    my_Sim._memory.load_ml_program(my_Sim._program)
+    my_Sim.execute_program.execute()
 
 if __name__ == "__main__":
     main()

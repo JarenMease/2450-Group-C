@@ -10,8 +10,8 @@ def test_always_passes():
    
 def test_load():
     my_Sim = UVSim()
-    my_Sim.set_memory(0, 10)
-    accumulator = my_Sim.load()
+    my_Sim._memory.store(0, 10)
+    accumulator = my_Sim._memory.load(my_Sim._operand)
     assert accumulator == 10
 
 def test_neg_load():
@@ -158,7 +158,7 @@ def test_subtract2():
     
 def test_execute_my_Sim():
     my_Sim = UVSim()
-    my_Sim.set_program([2005, 3005, 4300, 0000, 0000, 5])
+    my_Sim.set_program([2006, 3006, 3106, 3006, 4300, 0000, 5])
     my_Sim.load_ml_program()
     my_Sim.execute_program()
     result = my_Sim.get_accumulator()
