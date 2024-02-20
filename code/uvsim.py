@@ -1,7 +1,7 @@
 from main import *
-from executeProgram import *
+from execute_program import *
 
-class UVSim(): #JA Should rename to UVSim or Sim or B
+class UVSim():
   
     def __init__(self):
         self._memory = memory()
@@ -11,7 +11,7 @@ class UVSim(): #JA Should rename to UVSim or Sim or B
         self._op = 0
         self._program = []
     
-    def read_ml_program(self): #JA comment should use snake case for Python #Brandon Comment THIS NEEDS TO BE DONE IN FRONT END
+    def read_ml_program(self):  #Brandon Comment THIS NEEDS TO BE DONE IN FRONT END
       self._file = input("Enter the name of the input file: ")
       try:
   # Read program from file
