@@ -1,6 +1,6 @@
 #import pytest
 from main import *
-from executeProgram import *
+from execute_program import *
 
 def test_always_passes():
     assert True
