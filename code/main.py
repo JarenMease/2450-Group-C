@@ -1,4 +1,4 @@
-from executeProgram import *
+from execute_program import *
 from uvsim import *
 
 def main():
