@@ -1,18 +1,43 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+<<<<<<< Updated upstream
 from main import *
 from execute_program import *
 from uvsim import *
 from main import *
+=======
+from execute_program import Execute
+>>>>>>> Stashed changes
 
 class SimpleGUI:
-    def __init__(self, master):
+    def __init__(self, master, uvsim):
         self.master = master
         self.master.title("UVSIM")
         self.master.geometry("400x400")
+        self.uvsim = uvsim
         
+<<<<<<< Updated upstream
 # Clean is above
+=======
+        self.label = tk.Label(master, text="Welcome to the UVUSIM! Please select a text file to run:")
+        self.label.pack(pady=10)
+        
+        self.select_button = tk.Button(master, text="Select File", command=self.select_file)
+        self.select_button.pack()
+
+        self.op_operand_text = tk.Text(master, height=10, width=40)
+        self.op_operand_text.pack(pady=10)
+
+        self.memory_text = tk.Text(master, height=10, width=40)
+        self.memory_text.pack(pady=10)
+
+        self._pc = 0
+        self._op = 0
+        self._operand = 0
+        self._program = []
+        self._file = ""
+>>>>>>> Stashed changes
 
         # self._memory = [0] * 100
         # self._accumulator = 0
@@ -35,8 +60,16 @@ class SimpleGUI:
 
     def process_next_operation(self, value):
         if self.operations:
+            if self._op not in (40, 41 , 41):
+                    self._pc += 1
+            if self._op > 99:
+                messagebox.showerror("Error", "Program too long. Program Halted.")
             self._op, self._operand = self.operations.pop(0)
+<<<<<<< Updated upstream
             return value
+=======
+            Execute.execute(self._op, self._operand, self._pc, self.uvsim, self)
+>>>>>>> Stashed changes
 
     # def execute_program(self):
     #     if self._op == 10:  # read
@@ -63,7 +96,12 @@ class SimpleGUI:
     #         self._pc = self.branchZero()
     #     elif self._op == 43: #halt
     #         messagebox.showinfo("Halt Operation", f"Result: {self._accumulator}")
+<<<<<<< Updated upstream
     def read_input(self, operand):
+=======
+
+    def read_input(self):
+>>>>>>> Stashed changes
         entry_window = tk.Toplevel(self.master)
         entry_window.title("Enter Value")
         entry_window.geometry("300x100")
@@ -71,6 +109,10 @@ class SimpleGUI:
         def submit():
             try:
                 value = int(entry.get())
+<<<<<<< Updated upstream
+=======
+                self.uvsim._memory.store(self._operand, value)
+>>>>>>> Stashed changes
                 entry_window.destroy()
                 self.handle_input(value)  # Call the callback function with the input value
             except ValueError:
@@ -87,6 +129,7 @@ class SimpleGUI:
     # You can call your processing function here or do any further processing
         self.process_next_operation(value)
 
+<<<<<<< Updated upstream
     def process_next_operation(self, value):
         # This function should handle the next operation after receiving the input value
         print("Input value:", value)
@@ -139,6 +182,48 @@ class SimpleGUI:
 #         self._accumulator = value  # Update accumulator after branching
 #         messagebox.showinfo("Branch Operation", f"Branching to: {value}")
 #         self.process_next_operation()  # Process the next operation after branching
+=======
+    def write(self):
+        value = self.uvsim._memory.load(self._operand)
+        messagebox.showinfo("Write Operation", f"Value at memory location {self._operand}: {value}")
+        self.process_next_operation()  # Process the next operation after writing
+
+    def load(self, value):
+        messagebox.showinfo("Load Operation", f"Loaded value: {value}")
+        self.process_next_operation()  # Process the next operation after loading
+
+    def store(self, value):
+        # Update accumulator after storing
+        messagebox.showinfo("Store Operation", f"Stored value: {value}")
+        self.process_next_operation()  # Process the next operation after storing
+
+    def add(self, value): # Update accumulator after adding
+        messagebox.showinfo("Add Operation", f"Added value: {value}")   
+        self.process_next_operation()  # Process the next operation after adding
+
+    def subtract(self, value):
+        messagebox.showinfo("Subtract Operation", f"Subtracted value: {value}")
+        self.process_next_operation()  # Process the next operation after subtracting
+
+    def divide(self, value):
+        messagebox.showinfo("Divide Operation", f"Divided value: {value}")
+        self.process_next_operation()  # Process the next operation after dividing
+
+    def multiply(self, value):
+        messagebox.showinfo("Multiply Operation", f"Multiplied value: {value}")
+        self.process_next_operation()  # Process the next operation after multiplying
+
+    def branch(self, value):
+        messagebox.showinfo("Branch Operation", f"Branching to: {value}")
+        self._pc = value
+        self.process_next_operation()  # Process the next operation after branching
+
+    def branchNeg(self, value):
+        self._pc = value
+        messagebox.showinfo("Branch Negative Operation", f"Branching to: {self._pc}")
+        self.process_next_operation()  # Process the next operation after branching negative
+        # print(f"self._pc after branching negative: {self._pc}")
+>>>>>>> Stashed changes
 
 #     def branchNeg(self):
 #         # print(f"self._pc before branching negative: {self._pc}")
@@ -153,6 +238,7 @@ class SimpleGUI:
 #         self.process_next_operation()  # Process the next operation after branching negative
 #         # print(f"self._pc after branching negative: {self._pc}")
 
+<<<<<<< Updated upstream
 #     def branchZero(self):
 #         if self._accumulator == 0:
 #             value = self._operand
@@ -169,3 +255,8 @@ class SimpleGUI:
 
 # if __name__ == "__main__":
 #     main()
+=======
+    def halt(self):
+        messagebox.showinfo("Halt Operation", f"Result: {self.uvsim.get_accumulator()}")
+        
+>>>>>>> Stashed changes

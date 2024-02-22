@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 from uvsim import UVSim, arithmetic, branch
 from GUI import *
 from main import *
@@ -6,43 +7,70 @@ class execute_program(UVSim):
       def execute(self, my__gui):
         self._pc = 0
         while self._pc < self._memory.len():
+=======
+from uvsim import *
+class Execute:
+    def execute(op, operand, pc, uvsim, gui):
+        # self._pc = 0
+        # while self._pc < self._memory.len():
+>>>>>>> Stashed changes
 
-            self._op = self._memory.load(self._pc) // 100
-            self._operand = self._memory.load(self._pc) % 100  
+        #     self._op = self._memory.load(self._pc) // 100
+        #     self._operand = self._memory.load(self._pc) % 100  
 
-            match self._op:
+            match op:
               case 10: #read
+<<<<<<< Updated upstream
                   number = my__gui.read_input(self._operand)
                   self._memory.store(self._operand, number)
               case 11: #write
                   memory = self._memory.load(self._operand)
                   my__gui.write(memory) # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
+=======
+                  gui.read_input() # BW GUI.READ THIS HAS TO BE DONE IN FRONT END
+              case 11: #write
+                  gui.write() # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
+>>>>>>> Stashed changes
               case 20: #load
-                  self._accumulator = self._memory.load(self._operand)
+                  uvsim.set_accumulator(uvsim._memory.load(operand))
+                  value = uvsim.get_accumulator()
+                  gui.load(value)
+                  
               case 21: #store
-                  self._memory.store(self._operand, self._accumulator)
+                  uvsim._memory.store(operand, uvsim.get_accumulator())
+                  value = uvsim._memory.load(operand)
+                  gui.store(value)
               case 30: #add
-                  self._accumulator = arithmetic.add(self._accumulator, self._memory.load(self._operand))
+                  accumulator = arithmetic.add(uvsim.get_accumulator(), uvsim._memory.load(operand))
+                  uvsim.set_accumulator(accumulator)
+                  gui.add(accumulator)
               case 31: #subtract
-                  self._accumulator = arithmetic.subtract(self._accumulator, self._memory.load(self._operand))
+                  accumulator = arithmetic.subtract(uvsim.get_accumulator(), uvsim._memory.load(operand))
+                  uvsim.set_accumulator(accumulator)
+                  gui.subtract(accumulator)
               case 32: #divide
-                  self._accumulator = arithmetic.divide(self._accumulator, self._memory.load(self._operand))
+                  accumulator = arithmetic.divide(uvsim.get_accumulator(), uvsim._memory.load(operand))
+                  uvsim.set_accumulator(accumulator)
+                  gui.divide(accumulator)
               case 33: #multiply
-                  self._accumulator = arithmetic.multiply(self._accumulator, self._memory.load(self._operand))
+                  accumulator = arithmetic.multiply(uvsim.get_accumulator(), uvsim._memory.load(operand))
+                  uvsim.set_accumulator(accumulator)
+                  gui.multiply(accumulator)
               case 40: #branch
-                  self._pc = branch.branch(self._operand)
+                  pc = branch.branch(operand)
+                  gui.branch(pc)
               case 41: #branchNeg
-                  self._pc = branch.branchNeg(self._accumulator, self._operand, self._pc)
+                  pc = branch.branchNeg(uvsim.get_accumulator(), operand, pc)
+                  gui.branchNeg(pc)
               case 42: #branchZero
-                  self._pc = branch.branchZero(self._accumulator, self._operand, self._pc)
+                  pc = branch.branchZero(uvsim.get_accumulator(), operand, pc)
+                  gui.branchZero(pc)
               case 43: #halt
-                  my_bool = branch.halt()
-                  if my_bool:
-                      break
-            if self._op not in (40, 41, 42):
-              self._pc += 1
-        if self._pc > 99:
-            print("Program too long. Program halted.") #BW GUI.too_big? THIS HAS TO BE DONE IN FRONT END
+                  gui.halt()
+            # if self._op not in (40, 41, 42):
+            #   self._pc += 1
+        # if self._pc > 99:
+        #     print("Program too long. Program halted.") #BW GUI.too_big? THIS HAS TO BE DONE IN FRONT END
     
     #   def read(self): #BW GUI.READ THIS HAS TO BE DONE IN FRONT END
     #     while True:

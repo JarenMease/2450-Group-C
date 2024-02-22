@@ -1,15 +1,9 @@
-from main import *
-from execute_program import *
 
 class UVSim():
   
     def __init__(self):
         self._memory = memory()
         self._accumulator = 0
-        self._pc = 0
-        self._operand = 0
-        self._op = 0
-        self._program = []
     
 #     def read_ml_program(self):  #Brandon Comment THIS NEEDS TO BE DONE IN FRONT END
 #       self._file = input("Enter the name of the input file: ")
@@ -44,23 +38,6 @@ class UVSim():
     def get_accumulator(self):
       return self._accumulator
     
-    def set_operand(self, value):
-      self._operand = value
-      
-    def get_operand(self):
-      return self._operand
-    
-    def set_program(self, program):
-      self._program = program
-    
-    def get_program(self):
-      return self._program
-    
-    def set_pc(self, value):
-      self._pc = value
-    
-    def get_pc(self):
-      return self._pc
     
 
 

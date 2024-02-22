@@ -1,6 +1,7 @@
 from execute_program import *
 from uvsim import *
 from GUI import *
+<<<<<<< Updated upstream
 
 def main():
     my_Sim = execute_program()
@@ -10,6 +11,18 @@ def main():
     my_Sim.execute(my__gui)
     root.mainloop()
 
+=======
+import tkinter as tk
+from tkinter import filedialog
+from tkinter import messagebox
+
+def main():
+    my_Sim = UVSim()
+    root = tk.Tk()
+    my_program = SimpleGUI(root, my_Sim)
+    my_program.select_file()
+    root.mainloop()
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     main()
