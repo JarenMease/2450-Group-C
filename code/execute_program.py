@@ -1,19 +1,8 @@
-<<<<<<< Updated upstream
-from uvsim import UVSim, arithmetic, branch
-from GUI import *
-from main import *
-            
-class execute_program(UVSim):
-      def execute(self, my__gui):
-        self._pc = 0
-        while self._pc < self._memory.len():
-=======
 from uvsim import *
 class Execute:
     def execute(op, operand, pc, uvsim, gui):
         # self._pc = 0
         # while self._pc < self._memory.len():
->>>>>>> Stashed changes
 
         #     self._op = self._memory.load(self._pc) // 100
         #     self._operand = self._memory.load(self._pc) % 100  
