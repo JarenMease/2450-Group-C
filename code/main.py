@@ -9,6 +9,7 @@ def main():
     my__gui = SimpleGUI(root)
     my_Sim._memory.load_ml_program(my__gui.select_file())
     my_Sim.execute(my__gui)
+    
     root.mainloop()
 
 =======

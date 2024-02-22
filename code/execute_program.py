@@ -20,17 +20,14 @@ class Execute:
 
             match op:
               case 10: #read
-<<<<<<< Updated upstream
-                  number = my__gui.read_input(self._operand)
+                  number = my__gui.read_input(self._operand, my__gui.handle_input)
                   self._memory.store(self._operand, number)
+                  
+                  
               case 11: #write
                   memory = self._memory.load(self._operand)
                   my__gui.write(memory) # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
-=======
-                  gui.read_input() # BW GUI.READ THIS HAS TO BE DONE IN FRONT END
-              case 11: #write
-                  gui.write() # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
->>>>>>> Stashed changes
+                  
               case 20: #load
                   uvsim.set_accumulator(uvsim._memory.load(operand))
                   value = uvsim.get_accumulator()

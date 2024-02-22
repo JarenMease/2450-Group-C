@@ -139,6 +139,18 @@ class SimpleGUI:
         messagebox.showinfo(f"Write Operation: {value}")
         # self.process_next_operation()  # Process the next operation after writing
 
+
+    
+
+#Elephant Code Graveyard
+# Clean is above
+
+        # self._memory = [0] * 100
+        # self._accumulator = 0
+        # self._pc = 0
+        # self._operand = 0
+        # self._program = []
+        # self._file = ""
 #     def load(self):
 #         value = self._memory[self._operand]
 #         self._accumulator = value  # Update accumulator after loading
