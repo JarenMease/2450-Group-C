@@ -9,6 +9,7 @@ class SimpleGUI:
         self.main = tk.Tk()  # create the main gui window
         self.main.title("UVSIM")  # title of main window
         self.main.geometry("500x500") # dimensions of main window
+        self.main.configure(bg="lightblue")  # main window color
         self.sim = sim
         
         # label for main window with initial file select message
@@ -18,6 +19,11 @@ class SimpleGUI:
         # file select submit button
         self.file_button = tk.Button(self.main, text="Select File", command=self.select_file) # call select_file
         self.file_button.pack()  # put button in block
+
+        # output sim operation log to user
+        self.label = tk.Label(self.main, text="UVSim operations log")
+        self.operations_text = tk.Text(self.main, height=10, width=40)
+        self.operations_text.pack(pady=10)
 
         self._program = []  # initialize empty program
 
@@ -42,9 +48,14 @@ class SimpleGUI:
         # load program from the user-selected file into the sim
         self.sim.load_ml_program(self._program)
     
+    def operations_output(self, op, func_name, operand):
+        # output accumulator value in gui
+        output = f'Performed op {op}: {func_name} with operand {operand}\n'
+        self.operations_text.insert(tk.END, output)
+
     def final_output(self):
         # output accumulator value in gui
-        messagebox.showinfo("Accumulator Value:", f"{self.sim._accumulator}")  
+        messagebox.showinfo("Accumulator: ", f"{self.sim._accumulator}") 
 
     def read(self):
         #Read a word from the keyboard into memory
