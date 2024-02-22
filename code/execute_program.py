@@ -1,8 +1,9 @@
 from uvsim import UVSim, arithmetic, branch
-            
+from GUI import *
+from main import *
             
 class execute_program(UVSim):
-      def execute(self):
+      def execute(self, my__gui):
         self._pc = 0
         while self._pc < self._memory.len():
 
@@ -11,9 +12,11 @@ class execute_program(UVSim):
 
             match self._op:
               case 10: #read
-                  self.read() # BW GUI.READ THIS HAS TO BE DONE IN FRONT END
+                  number = my__gui.read_input(self._operand)
+                  self._memory.store(self._operand, number)
               case 11: #write
-                  self.write() # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
+                  memory = self._memory.load(self._operand)
+                  my__gui.write(memory) # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
               case 20: #load
                   self._accumulator = self._memory.load(self._operand)
               case 21: #store
@@ -41,18 +44,18 @@ class execute_program(UVSim):
         if self._pc > 99:
             print("Program too long. Program halted.") #BW GUI.too_big? THIS HAS TO BE DONE IN FRONT END
     
-      def read(self): #BW GUI.READ THIS HAS TO BE DONE IN FRONT END
-        while True:
-          try:
-            value = int(input(f"What number would you like read into memory location {self._operand}? "))
-            self._memory._memory[self._operand] = value
-            break
-          except ValueError:
-            print("Please enter a valid number.")
-            continue
+    #   def read(self): #BW GUI.READ THIS HAS TO BE DONE IN FRONT END
+    #     while True:
+    #       try:
+    #         value = int(input(f"What number would you like read into memory location {self._operand}? "))
+    #         self._memory._memory[self._operand] = value
+    #         break
+    #       except ValueError:
+    #         print("Please enter a valid number.")
+    #         continue
     
-      def write(self): #BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
-        print(self._memory.load(self._operand))
+    #   def write(self): #BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
+    #     print(self._memory.load(self._operand))
     
 
 

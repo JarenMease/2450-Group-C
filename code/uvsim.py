@@ -11,31 +11,31 @@ class UVSim():
         self._op = 0
         self._program = []
     
-    def read_ml_program(self):  #Brandon Comment THIS NEEDS TO BE DONE IN FRONT END
-      self._file = input("Enter the name of the input file: ")
-      try:
-  # Read program from file
-        with open(self._file, 'r') as file:
-          for line in file:
-              line = line.strip()
+#     def read_ml_program(self):  #Brandon Comment THIS NEEDS TO BE DONE IN FRONT END
+#       self._file = input("Enter the name of the input file: ")
+#       try:
+#   # Read program from file
+#         with open(self._file, 'r') as file:
+#           for line in file:
+#               line = line.strip()
               
-              # Check that line in file is a word
-              try: 
-                  instruction = int(line)
-              except:
-                  raise ValueError(f"Line {line} contains a non-integer character. All words must be integers. Please correct the program txt file.")
+#               # Check that line in file is a word
+#               try: 
+#                   instruction = int(line)
+#               except:
+#                   raise ValueError(f"Line {line} contains a non-integer character. All words must be integers. Please correct the program txt file.")
 
-              # Check word size
-              if len(line) == 5 and line[0] not in ('+', '-'):
-                  raise ValueError(f"Line {line[0]} == 5 but first character is not + or -. Please correct the program txt file.")            
-              elif len(line) not in (4, 5):                   
-                  raise ValueError(f"Line {line} is more or less than 4 digits. Please correct the program txt file.")
+#               # Check word size
+#               if len(line) == 5 and line[0] not in ('+', '-'):
+#                   raise ValueError(f"Line {line[0]} == 5 but first character is not + or -. Please correct the program txt file.")            
+#               elif len(line) not in (4, 5):                   
+#                   raise ValueError(f"Line {line} is more or less than 4 digits. Please correct the program txt file.")
 
-              self._program.append(instruction)
+#               self._program.append(instruction)
     
-      except FileNotFoundError:
-          print(f"File {self._file} not found. Please enter a valid file name.")
-          self.read_ml_program()
+#       except FileNotFoundError:
+#           print(f"File {self._file} not found. Please enter a valid file name.")
+#           self.read_ml_program()
     
     
     def set_accumulator(self, value):
