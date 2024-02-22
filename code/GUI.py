@@ -41,6 +41,7 @@ class SimpleGUI:
             try:
                 with open(file_path, 'r') as file:
                     self.operations = [(int(line.strip()) // 100, int(line.strip()) % 100) for line in file]
+                    self.uvsim._memory.load_ml_program(self.operations)
                 self.process_next_operation()
             except Exception as e:
                 messagebox.showerror("Error", str(e))
@@ -53,7 +54,7 @@ class SimpleGUI:
                     self._pc += 1
             if self._op > 99:
                 messagebox.showerror("Error", "Program too long. Program Halted.")
-            self._op, self._operand = self.operations.pop(0)
+            self._op, self._operand = self.uvsim._memory.load(self._pc - 1)
             Execute.execute(self._op, self._operand, self._pc, self.uvsim, self)
 
     # def execute_program(self):

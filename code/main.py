@@ -9,7 +9,6 @@ def main():
     my_Sim = UVSim()
     root = tk.Tk()
     my_program = SimpleGUI(root, my_Sim)
-    my_program.select_file()
     root.mainloop()
 
 if __name__ == "__main__":

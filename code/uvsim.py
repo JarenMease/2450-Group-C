@@ -95,3 +95,6 @@ class memory():
       
     def len(self):
         return len(self._memory)
+
+    def __getitem__(self, index):
+        return self._memory[inde]
