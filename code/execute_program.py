@@ -9,13 +9,10 @@ class Execute:
 
             match op:
               case 10: #read
-                  number = my__gui.read_input(self._operand, my__gui.handle_input)
-                  self._memory.store(self._operand, number)
-                  
+                  gui.read_input()                  
                   
               case 11: #write
-                  memory = self._memory.load(self._operand)
-                  my__gui.write(memory) # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
+                  gui.write() # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
                   
               case 20: #load
                   uvsim.set_accumulator(uvsim._memory.load(operand))
