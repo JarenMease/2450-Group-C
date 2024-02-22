@@ -1,173 +1,91 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+from execute_program import Execute
 
 class SimpleGUI:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("UVSIM")
-        self.master.geometry("400x400")
+    '''This class creates a simple GUI using tkinter'''
+    def __init__(self, sim):
+        self.main = tk.Tk()  # create the main gui window
+        self.main.title("UVSIM")  # title of main window
+        self.main.geometry("500x500") # dimensions of main window
+        self.main.configure(bg="lightblue")  # main window color
+        self.sim = sim
         
-        self.label = tk.Label(master, text="Welcome to the UVUSIM! Please select a text file to run:")
+        # label for main window with initial file select message
+        self.label = tk.Label(self.main, text="Welcome to the UVUSIM! Please select a text file to run:")
         self.label.pack(pady=10)
         
-        self.select_button = tk.Button(master, text="Select File", command=self.select_file)
-        self.select_button.pack()
+        # file select submit button
+        self.file_button = tk.Button(self.main, text="Select File", command=self.select_file) # call select_file
+        self.file_button.pack()  # put button in block
 
-        self.op_operand_text = tk.Text(master, height=10, width=40)
-        self.op_operand_text.pack(pady=10)
+        # output sim operation log to user
+        self.label = tk.Label(self.main, text="UVSim operations log")
+        self.operations_text = tk.Text(self.main, height=10, width=40)
+        self.operations_text.pack(pady=10)
 
-        self.memory_text = tk.Text(master, height=10, width=40)
-        self.memory_text.pack(pady=10)
-
-        self._memory = [0] * 100
-        self._accumulator = 0
-        self._pc = 0
-        self._operand = 0
-        self._program = []
-        self._file = ""
+        self._program = []  # initialize empty program
 
     def select_file(self):
+        # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
             try:
                 with open(file_path, 'r') as file:
-                    self.operations = [(int(line.strip()) // 100, int(line.strip()) % 100) for line in file]
-                self.process_next_operation()
+                    for line in file:
+                        self._program.append(int(line.strip()))  # add each line of program to program, check for int
+                self.load_file()   # load program into sim
+                Execute.execute_program(self.sim, self)  # execute program with Execute class
+                self.final_output()  # output accumulator value in gui
+                self.main.destroy()  # exit gui
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         else:
             messagebox.showinfo("Info", "No file selected.")
+    
+    def load_file(self):
+        # load program from the user-selected file into the sim
+        self.sim.load_ml_program(self._program)
+    
+    def operations_output(self, op, func_name, operand):
+        # output accumulator value in gui
+        output = f'Performed op {op}: {func_name} with operand {operand}\n'
+        self.operations_text.insert(tk.END, output)
 
-    def process_next_operation(self):
-        if self.operations:
-            self._op, self._operand = self.operations.pop(0)
-            self.execute_program()
+    def final_output(self):
+        # output accumulator value in gui
+        messagebox.showinfo("Accumulator: ", f"{self.sim._accumulator}") 
 
-    def execute_program(self):
-        if self._op == 10:  # read
-            self.read_input()
-        elif self._op == 11:  # write
-            self.write()
-        elif self._op == 20:  # load
-            self._accumulator = self.load()
-        elif self._op == 21: #store
-            self.store()
-        elif self._op == 30: #add
-            self._accumulator = self.add()
-        elif self._op == 31: #subtract
-            self._accumulator = self.subtract()
-        elif self._op == 32: #divide
-            self._accumulator = self.divide()
-        elif self._op == 33: #multiply
-            self._accumulator = self.multiply()
-        elif self._op == 40: #branch
-            self._pc = self.branch()
-        elif self._op == 41: #branchNeg
-            self._pc = self.branchNeg()
-        elif self._op == 42: #branchZero
-            self._pc = self.branchZero()
-        elif self._op == 43: #halt
-            messagebox.showinfo("Halt Operation", f"Result: {self._accumulator}")
-
-    def read_input(self):
-        entry_window = tk.Toplevel(self.master)
+    def read(self):
+        #Read a word from the keyboard into memory
+        entry_window = tk.Toplevel(self.main)  # create user input window
         entry_window.title("Enter Value")
         entry_window.geometry("300x100")
 
         def submit():
             try:
-                value = int(entry.get())
-                self._memory[self._operand] = value
-                self._accumulator = value
-                entry_window.destroy()
-                self.process_next_operation()  # Process the next operation after user input
+                value = int(entry.get())  #check for int
+                self.sim._memory[self.sim._operand] = value  # place user input into memory
+                entry_window.destroy()  # close user input window
             except ValueError:
                 messagebox.showerror("Error", "Please enter a valid number.")
 
-        entry_label = tk.Label(entry_window, text=f"Enter a number for memory location {self._operand}:")
+        # label and button for user input
+        entry_label = tk.Label(entry_window, text=f"Enter a number for memory location {self.sim._operand}:")
         entry_label.pack(pady=5)
         entry = tk.Entry(entry_window)
         entry.pack(pady=5)
         submit_button = tk.Button(entry_window, text="Submit", command=submit)
         submit_button.pack(pady=5)
-
+        
+        entry_window.wait_window()  #wait for user input before continuing
+    
     def write(self):
-        value = self._memory[self._operand]
-        self._accumulator = value  # Update accumulator after writing
-        messagebox.showinfo("Write Operation", f"Value at memory location {self._operand}: {value}")
-        self.process_next_operation()  # Process the next operation after writing
+        # write a word from memory to gui
+        value = self.sim._memory[self.sim._operand]
+        messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
-    def load(self):
-        value = self._memory[self._operand]
-        self._accumulator = value  # Update accumulator after loading
-        messagebox.showinfo("Load Operation", f"Loaded value: {value}")
-        self.process_next_operation()  # Process the next operation after loading
-
-    def store(self):
-        value = self._memory[self._operand] = self._accumulator
-        self._accumulator = value  # Update accumulator after storing
-        messagebox.showinfo("Store Operation", f"Stored value: {value}")
-        self.process_next_operation()  # Process the next operation after storing
-
-    def add(self):
-        value = self._accumulator + self._memory[self._operand]
-        self._accumulator = value  # Update accumulator after adding
-        messagebox.showinfo("Add Operation", f"Added value: {value}")   
-        self.process_next_operation()  # Process the next operation after adding
-
-    def subtract(self):
-        value = self._accumulator - self._memory[self._operand]
-        self._accumulator = value  # Update accumulator after subtracting
-        messagebox.showinfo("Subtract Operation", f"Subtracted value: {value}")
-        self.process_next_operation()  # Process the next operation after subtracting
-
-    def divide(self):
-        if self._memory[self._operand] == 0:
-            messagebox.showinfo("Error", "Cannot divide by zero.")
-        value = self._accumulator // self._memory[self._operand]
-        self._accumulator = value  # Update accumulator after dividing
-        messagebox.showinfo("Divide Operation", f"Divided value: {value}")
-        self.process_next_operation()  # Process the next operation after dividing
-
-    def multiply(self):
-        value = self._accumulator * self._memory[self._operand]
-        self._accumulator = value  # Update accumulator after multiplying
-        messagebox.showinfo("Multiply Operation", f"Multiplied value: {value}")
-        self.process_next_operation()  # Process the next operation after multiplying
-
-    def branch(self):
-        value = self._operand
-        self._accumulator = value  # Update accumulator after branching
-        messagebox.showinfo("Branch Operation", f"Branching to: {value}")
-        self.process_next_operation()  # Process the next operation after branching
-
-    def branchNeg(self):
-        # print(f"self._pc before branching negative: {self._pc}")
-        if self._accumulator < 0:
-            value = self._operand
-        else:
-            if self._pc is None:
-                self._pc = 0
-            value = self._pc + 1
-        self._accumulator = value  # Update accumulator after branching negative
-        messagebox.showinfo("Branch Negative Operation", f"Branching to: {self._operand}")
-        self.process_next_operation()  # Process the next operation after branching negative
-        # print(f"self._pc after branching negative: {self._pc}")
-
-    def branchZero(self):
-        if self._accumulator == 0:
-            value = self._operand
-        else:
-            value = self._pc + 1
-        self._accumulator = value  # Update accumulator after branching zero
-        messagebox.showinfo("Branch Zero Operation", f"Branching to: {self._operand}")
-        self.process_next_operation()  # Process the next operation after branching zero
-
-def main():
-    root = tk.Tk()
-    app = SimpleGUI(root)
-    root.mainloop()
-
-if __name__ == "__main__":
-    main()
+    def too_long(self):
+        # gui error message if sim pc exceeds available memory
+        messagebox.showerror("Error", "Program too long.")
