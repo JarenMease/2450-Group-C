@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+from execute_program import Execute
 
 class SimpleGUI:
     def __init__(self, sim):
@@ -29,8 +30,8 @@ class SimpleGUI:
                         self._program.append(int(line.strip()))
                 #load program into sim on button click
                 self.load_file()
-                #execute program in sim
-                self.execute_program()
+                #execute program with Execute class
+                Execute.execute_program(self.sim, self)
                 #print accumulator
                 self.final_output()
                 #exit
@@ -42,46 +43,6 @@ class SimpleGUI:
     
     def load_file(self):
         self.sim.load_ml_program(self._program)
-    
-    def execute_program(self):
-        sim = self.sim
-        sim._pc = 0
-        while sim._pc < len(sim._memory):
-
-            sim._op = sim._memory[sim._pc] // 100
-            sim._operand = sim._memory[sim._pc] % 100  
-
-            match sim._op:
-              case 10: #read
-                  self.read() # BW GUI.READ THIS HAS TO BE DONE IN FRONT END
-              case 11: #write
-                  self.write() # BW GUI.WRITE THIS HAS TO BE DONE IN FRONT END
-              case 20: #load
-                  sim._accumulator = sim.load()
-              case 21: #store
-                  sim.store()
-              case 30: #add
-                  sim._accumulator = sim.add(sim._accumulator, sim.load())
-              case 31: #subtract
-                  sim._accumulator = sim.subtract(sim._accumulator, sim.load())
-              case 32: #divide
-                  sim._accumulator = sim.divide(sim._accumulator, sim.load())
-              case 33: #multiply
-                  sim._accumulator = sim.multiply(sim._accumulator, sim.load())
-              case 40: #branch
-                  sim._pc = sim.branch(sim._operand)
-              case 41: #branchNeg
-                  sim._pc = sim.branch_neg(sim._accumulator, sim._operand, sim._pc)
-              case 42: #branchZero
-                  sim._pc = sim.branch_zero(sim._accumulator, sim._operand, sim._pc)
-              case 43: #halt
-                  my_bool = sim.halt()
-                  if my_bool:
-                      break
-            if sim._op not in (40, 41, 42):
-              sim._pc += 1
-        if sim._pc > 99:
-            messagebox.showerror("Error", "Program too long.")
     
     def final_output(self):
         messagebox.showinfo("Accumulator Value:", f"{self.sim._accumulator}")  
@@ -113,4 +74,5 @@ class SimpleGUI:
         value = self.sim._memory[self.sim._operand]
         messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
-
+    def too_long(self):
+        messagebox.showerror("Error", "Program too long.")
