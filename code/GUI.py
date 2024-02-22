@@ -40,14 +40,14 @@ class SimpleGUI:
         if file_path:
             try:
                 with open(file_path, 'r') as file:
-                    self.operations = [int(line.strip()) for line in file]
-                return self.operations
+                    self.operations = [(int(line.strip()) // 100, int(line.strip()) % 100) for line in file]
+                self.process_next_operation()
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         else:
             messagebox.showinfo("Info", "No file selected.")
 
-    def process_next_operation(self, value):
+    def process_next_operation(self):
         if self.operations:
             if self._op not in (40, 41 , 41):
                     self._pc += 1
@@ -92,20 +92,16 @@ class SimpleGUI:
                 value = int(entry.get())
                 self.uvsim._memory.store(self._operand, value)
                 entry_window.destroy()
-                self.handle_input(value)  # Call the callback function with the input value
+                self.process_next_operation()  # Process the next operation after user input
             except ValueError:
                 messagebox.showerror("Error", "Please enter a valid number.")
 
-        entry_label = tk.Label(entry_window, text=f"Enter a number for memory location {operand}:")
+        entry_label = tk.Label(entry_window, text=f"Enter a number for memory location {self._operand}:")
         entry_label.pack(pady=5)
         entry = tk.Entry(entry_window)
         entry.pack(pady=5)
         submit_button = tk.Button(entry_window, text="Submit", command=submit)
         submit_button.pack(pady=5)
-        
-    def handle_input(self, value):
-    # You can call your processing function here or do any further processing
-        self.process_next_operation(value)
 
     def write(self):
         value = self.uvsim._memory.load(self._operand)
@@ -148,6 +144,10 @@ class SimpleGUI:
         self.process_next_operation()  # Process the next operation after branching negative
         # print(f"self._pc after branching negative: {self._pc}")
 
+    def branchZero(self, value):
+        messagebox.showinfo("Branch Zero Operation", f"Branching to: {value}")
+        self._pc = value
+        self.process_next_operation()  # Process the next operation after branching zero
 #     def branchNeg(self):
 #         # print(f"self._pc before branching negative: {self._pc}")
 #         if self._accumulator < 0:
