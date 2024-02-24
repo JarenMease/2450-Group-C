@@ -63,4 +63,27 @@ class UVSim():
         # stop the program
         return True
     
+    def get_accumulator(self):
+        return self._accumulator
+    
+    def set_accumulator(self, value):
+        self._accumulator = value
+        
+    def set_operand(self, value):
+        self._operand = value
+    
+    def get_operand(self):
+        return self._operand
+        
+    def set_memory(self, index, value):
+        self._memory[index] = value
+        
+    def set_program(self, program):
+        self._program = program
+        
+    def get_program(self):
+        return self._program
+    
+    def get_pc(self):
+        return self._pc
         
