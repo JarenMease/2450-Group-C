@@ -55,7 +55,9 @@ class SimpleGUI:
 
     def final_output(self):
         # output accumulator value in gui
-        messagebox.showinfo("Accumulator: ", f"{self.sim._accumulator}") 
+        output = f"Final accumulator value: {self.sim._accumulator}\n"
+        self.operations_text.insert(tk.END, output)
+        messagebox.showinfo("Result: ", f"Final Accumulator Value: {self.sim._accumulator}") 
 
     def read(self):
         #Read a word from the keyboard into memory
