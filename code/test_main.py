@@ -2,7 +2,7 @@ import pytest
 from main import *
 from execute_program import *
 from uvsim import *
-from gui import *
+from GUI import *
 
 def test_always_passes():
     assert True
