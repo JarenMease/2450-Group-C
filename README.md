@@ -19,17 +19,17 @@ Run Python Program
 Replace `'your_directory_path'` and `'your_file.py'` with your actual directory path and Python file name.
 
 How to Use
-- Run the program. You will be prompted to enter the name of the input file. This file should contain your BasicML program. Each line of the file should contain a single command.
+- Run the program. A graphical user interface window will pop up. You will be prompted to click on a button labled,"Select File". This will open the computer's directory allowing you to select a file. This file should contain your BasicML program. Each line of the file should contain a four-digit integer.
 
 - If the file is found, the program will read the commands from the file. Each command should be a 4-digit number. The first two digits are the operation code (op), and the last two digits are the operand.
 
 - If a command is more than 4 digits, or if the operation code is not a valid operation code, the program will raise an error and stop execution. Valid operation codes are 10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 42, 43(see bottom for description)
 
-- If the operation code is 10 (READ), the program will prompt you to enter a number to read into the specified location.
+- If the operation code is 10 (READ), the program will open another window and prompt you to enter a number into the input box below in order to read into the specified location. Once entered, click the, "Submit" button.
 
 - After all commands have been read and processed, the program will execute the BasicML program.
 
-- The result of the program will be printed to the console.
+- The result of the program will appear in the original window's output text box below the "Select File" button.
 
 Input File Format
 - The input file should contain one command per line. Each command should be a 4-digit number. The first two digits are the operation code, and the last two digits are the operand. The file must end with the 4300 Halt Command.
@@ -60,7 +60,7 @@ Here's what that above file does:
 
 
 Error Handling
-- If a command is more than 4 digits, or if the operation code is not a valid operation code, the program will raise an error and stop execution. The error message will indicate the problem and ask you to correct the file.
+- If the operation code is not a valid operation code, the program will raise an error and stop execution. The error message will indicate the problem and ask you to correct the file.
 
 Operands Description:
 - 10 (READ): This operation code prompts the user to enter a number, which is then stored in a specific location in memory. The location is specified by the operand.
