@@ -19,7 +19,7 @@ Run Python Program
 Replace `'your_directory_path'` and `'your_file.py'` with your actual directory path and Python file name.
 
 How to Use
-- Run the program. A graphical user interface window will pop up. You will be prompted to click on a button labled,"Select File". This will open the computer's directory allowing you to select a file. This file should contain your BasicML program. Each line of the file should contain a single command.
+- Run the program. A graphical user interface window will pop up. You will be prompted to click on a button labled,"Select File". This will open the computer's directory allowing you to select a file. This file should contain your BasicML program. Each line of the file should contain a four-digit integer.
 
 - If the file is found, the program will read the commands from the file. Each command should be a 4-digit number. The first two digits are the operation code (op), and the last two digits are the operand.
 
@@ -29,7 +29,7 @@ How to Use
 
 - After all commands have been read and processed, the program will execute the BasicML program.
 
-- The result of the program will pop up as message alert windows for each step. Select, "OK" to continue to the next window. Each step of the results will also appear in the original window's text box, the same window with the "Select File" button.
+- The result of the program will appear in the original window's output text box below the "Select File" button.
 
 Input File Format
 - The input file should contain one command per line. Each command should be a 4-digit number. The first two digits are the operation code, and the last two digits are the operand. The file must end with the 4300 Halt Command.
@@ -60,7 +60,7 @@ Here's what that above file does:
 
 
 Error Handling
-- If a command is more than 4 digits, or if the operation code is not a valid operation code, the program will raise an error and stop execution. The error message will indicate the problem and ask you to correct the file.
+- If the operation code is not a valid operation code, the program will raise an error and stop execution. The error message will indicate the problem and ask you to correct the file.
 
 Operands Description:
 - 10 (READ): This operation code prompts the user to enter a number, which is then stored in a specific location in memory. The location is specified by the operand.
