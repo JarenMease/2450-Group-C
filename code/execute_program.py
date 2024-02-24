@@ -50,7 +50,8 @@ class Execute:
                     func_name = 'halt'
                     if my_bool:
                         break
-            gui.operations_output(sim._op, func_name, sim._operand)
+            if sim._op in (10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 32, 43):
+                gui.operations_output(sim._op, func_name, sim._operand)
             if sim._op not in (40, 41, 42):  # if not a branch op
                 sim._pc += 1
         if sim._pc > 99:
