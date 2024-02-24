@@ -1,5 +1,5 @@
 from uvsim import UVSim
-from gui import SimpleGUI
+from GUI import SimpleGUI
 
 def main():
     '''Run machine language simulator'''
